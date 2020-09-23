@@ -1,16 +1,21 @@
 <?php
 use App\Http\Controllers\Admin\LoginController;
+use App\Http\Controllers\Admin\SettingController;
 
 Route::group(['prefix'  =>  'admin'], function () {
 
 
-
     Route::get('login', [LoginController::class,'showLoginForm'])->name('admin.login');
-    Route::post('login', 'Admin\LoginController@login')->name('admin.login.post');
-    Route::get('logout', 'Admin\LoginController@logout')->name('admin.logout');
+    Route::post('login', [LoginController::class,'login'])->name('admin.login.post');
+    Route::get('logout', [LoginController::class,'logout'])->name('admin.logout');
 
-    Route::get('/', function () {
-        return view('admin.dashboard.index');
+    Route::group(['middleware' => ['auth:admin']], function () {
+
+        Route::get('/', function () {
+            return view('admin.dashboard.index');
+            Route::get('/settings', [SettingController::class,'index'])->name('admin.settings');
+            Route::post('/settings', [SettingController::class,'update'])->name('admin.settings.update');
+        })->name('admin.dashboard');
+
     });
-
 });
