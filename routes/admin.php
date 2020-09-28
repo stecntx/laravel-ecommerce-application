@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\CategoryController;
 
 Route::group(['prefix'  =>  'admin'], function () {
 
